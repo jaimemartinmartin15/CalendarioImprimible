@@ -30,5 +30,8 @@
     "@jaimemartinmartin15/jei-devkit-angular-builders": "^5.2.1",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2"
+  },
+  "prettier": {
+    "printWidth": 180
   }
 }
