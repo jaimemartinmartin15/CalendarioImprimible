@@ -9,7 +9,7 @@
           </h1>
 
           <div class="days-grid">
-            @for (day of getMonthDays(page.previousMonth.monthName, page.previousMonth.year); track $index) {
+            @for (day of getMiniMonthDays(page.previousMonth.monthName, page.previousMonth.year); track $index) {
               <div
                 [ngStyle]="
                   $index === 0 ? { 'grid-column-start': getDayStartOffset(page.previousMonth.monthName, page.previousMonth.year) } : {}
@@ -33,7 +33,7 @@
           </h1>
 
           <div class="days-grid">
-            @for (day of getMonthDays(page.nextMonth.monthName, page.nextMonth.year); track $index) {
+            @for (day of getMiniMonthDays(page.nextMonth.monthName, page.nextMonth.year); track $index) {
               <div
                 [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.nextMonth.monthName, page.nextMonth.year) } : {}"
               >
@@ -44,7 +44,16 @@
         </div>
       </header>
 
-      <div class="week-days"></div>
+      <div class="week-days">
+        <span> <!-- week number --> </span>
+        <span>Lunes</span>
+        <span>Martes</span>
+        <span>Miércoles</span>
+        <span>Jueves</span>
+        <span>Viernes</span>
+        <span>Sábado</span>
+        <span>Domingo</span>
+      </div>
 
       <div class="grid"></div>
     </section>

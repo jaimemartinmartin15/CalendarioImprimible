@@ -26,7 +26,7 @@ export class CalendarComponent implements OnInit {
     // TODO
   }
 
-  public getMonthDays(month: string, year: number): number[] {
+  public getMiniMonthDays(month: string, year: number): number[] {
     // month: 1 = january, 12 = december
     const daysInMonth = new Date(year, MONTHS.map((m) => m.toLowerCase()).indexOf(month.toLowerCase()) + 1, 0).getDate();
 
