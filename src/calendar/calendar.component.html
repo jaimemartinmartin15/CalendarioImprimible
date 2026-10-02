@@ -1,0 +1,54 @@
+<div class="calendar">
+  @for (page of calendar; track $index) {
+    <section class="page">
+      <header class="header">
+        <div class="mini-month">
+          <h1 class="month-and-year mini">
+            <span class="month">{{ page.previousMonth.monthName }} </span>
+            <span class="year">{{ page.previousMonth.year }}</span>
+          </h1>
+
+          <div class="days-grid">
+            @for (day of getMonthDays(page.previousMonth.monthName, page.previousMonth.year); track $index) {
+              <div
+                [ngStyle]="
+                  $index === 0 ? { 'grid-column-start': getDayStartOffset(page.previousMonth.monthName, page.previousMonth.year) } : {}
+                "
+              >
+                {{ day }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <h1 class="month-and-year">
+          <span class="month">{{ page.monthName }} </span>
+          <span class="year">{{ page.year }}</span>
+        </h1>
+
+        <div class="mini-month">
+          <h1 class="month-and-year mini">
+            <span class="month">{{ page.nextMonth.monthName }} </span>
+            <span class="year">{{ page.nextMonth.year }}</span>
+          </h1>
+
+          <div class="days-grid">
+            @for (day of getMonthDays(page.nextMonth.monthName, page.nextMonth.year); track $index) {
+              <div
+                [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.nextMonth.monthName, page.nextMonth.year) } : {}"
+              >
+                {{ day }}
+              </div>
+            }
+          </div>
+        </div>
+      </header>
+
+      <div class="week-days"></div>
+
+      <div class="grid"></div>
+    </section>
+  }
+</div>
+
+<aside class="panel"></aside>

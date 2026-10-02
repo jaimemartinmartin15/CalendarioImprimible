@@ -1,0 +1,53 @@
+:host {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.month-and-year {
+  &.mini {
+    font-size: 9.5px;
+  }
+
+  .month {
+    color: var(--color-text-black);
+  }
+
+  .year {
+    color: var(--color-red);
+  }
+}
+
+.calendar {
+  width: 210mm;
+}
+
+.page {
+  width: 210mm;
+  height: 150mm;
+  background: #fff;
+  margin: 8mm auto;
+  padding: 7mm;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .mini-month {
+      width: 26mm;
+
+      .days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-auto-rows: 1fr;
+        gap: 1mm;
+        font-size: 8px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.panel {
+  width: 380px;
+}
