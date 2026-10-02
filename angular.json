@@ -47,15 +47,17 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["./node_modules"]
+            },
+            "namedChunks": true,
             "assets": [
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -92,6 +94,21 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "icons": {
+          "builder": "@jaimemartinmartin15/jei-devkit-angular-builders:generate-icons",
+          "options": {
+            "configFile": "src/svg.json"
+          }
+        },
+        "deploy": {
+          "builder": "@jaimemartinmartin15/jei-devkit-angular-builders:aws-deploy",
+          "options": {
+            "serverSegment": "calendario-imprimible",
+            "distFolder": "dist/calendarioimprimible/browser",
+            "overriddenRequest": {},
+            "noCache": ["index.html"]
+          }
         }
       }
     }

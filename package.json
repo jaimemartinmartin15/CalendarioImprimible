@@ -1,11 +1,13 @@
 {
   "name": "calendarioimprimible",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "start": "ng serve -o",
+    "start:public": "ng serve -o --host 0.0.0.0 --port 80",
+    "start:prod": "mv dist/calendarioimprimible dist/dist && mv dist/dist/browser dist/dist/calendario-imprimible && cd dist/dist/ && live-server . --open=calendario-imprimible",
+    "build": "ng build --base-href /calendario-imprimible/",
+    "icons": "ng run project-name:icons",
+    "aws-deploy": "ng deploy"
   },
   "private": true,
   "packageManager": "npm@11.13.0",
@@ -16,6 +18,8 @@
     "@angular/forms": "^22.0.0",
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
+    "@jaimemartinmartin15/jei-devkit-angular-shared": "^8.1.1",
+    "@jaimemartinmartin15/svg-icons": "^1.10.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -23,6 +27,7 @@
     "@angular/build": "^22.0.3",
     "@angular/cli": "^22.0.3",
     "@angular/compiler-cli": "^22.0.0",
+    "@jaimemartinmartin15/jei-devkit-angular-builders": "^5.2.1",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2"
   }
