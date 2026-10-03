@@ -1,4 +1,4 @@
-import { NgStyle, NgClass } from "@angular/common";
+import { NgClass, NgStyle } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
 
@@ -9,34 +9,37 @@ import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-s
   imports: [NgStyle, NgClass],
 })
 export class CalendarComponent implements OnInit {
-  public calendar = MONTHS.map((month) => ({
+  public year = 2026;
+
+  public calendar = MONTHS.map((_, i) => ({
     previousMonth: {
-      monthName: "diciembre",
-      year: 2025,
+      month: i === 0 ? 11 : i - 1,
+      year: i === 0 ? this.year - 1 : this.year,
     },
     nextMonth: {
-      monthName: "febrero",
-      year: 2026,
+      month: i === 11 ? 0 : i + 1,
+      year: i === 11 ? this.year + 1 : this.year,
     },
-    monthName: month.toLowerCase(),
-    year: 2026,
+    month: i,
+    year: this.year,
   }));
 
   public ngOnInit() {
     // TODO
   }
 
-  public getMiniMonthDays(month: string, year: number): number[] {
-    // month: 1 = january, 12 = december
-    const daysInMonth = new Date(year, MONTHS.map((m) => m.toLowerCase()).indexOf(month.toLowerCase()) + 1, 0).getDate();
+  public getMonthName(month: number): string {
+    return MONTHS[month].toLowerCase();
+  }
 
+  public getMiniMonthDays(year: number, month: number): number[] {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     return intervalArray(daysInMonth);
   }
 
-  public getDayStartOffset(month: string, year: number): number {
-    const monthIndex = MONTHS.map((m) => m.toLowerCase()).indexOf(month.toLowerCase());
+  public getDayStartOffset(year: number, month: number): number {
     // getDay(): 0 -> Sunday, 1 -> Monday, ... , 6 -> Saturday
-    return new Date(year, monthIndex, 1).getDay() || 7;
+    return new Date(year, month, 1).getDay() || 7;
   }
 
   private getISOWeek(year: number, month: number, day: number): number {
@@ -52,13 +55,12 @@ export class CalendarComponent implements OnInit {
   }
 
   // TODO typing
-  public weeksForMonth(month: string, year: number): any[] {
+  public weeksForMonth(year: number, month: number): any[] {
     const weeks: any[] = [];
 
-    const monthIndex = MONTHS.map((m) => m.toLowerCase()).indexOf(month.toLowerCase());
     const offset = this.getDayStartOffset(month, year) - 1;
-    const numberOfDaysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-    const numberOfDaysInPreviousMonth = new Date(year, monthIndex, 0).getDate();
+    const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
+    const numberOfDaysInPreviousMonth = new Date(year, month, 0).getDate();
 
     const rows = Math.ceil((offset + numberOfDaysInMonth) / 7);
     for (let row = 0; row < rows; row++) {
@@ -66,7 +68,7 @@ export class CalendarComponent implements OnInit {
       weeks.push(week);
 
       const mondayIndex = row * 7 - offset + 1;
-      week.number = this.getISOWeek(year, monthIndex, mondayIndex);
+      week.number = this.getISOWeek(year, month, mondayIndex);
 
       for (let day = 0; day < 7; day++) {
         const indice = row * 7 + day - offset + 1;
@@ -83,7 +85,7 @@ export class CalendarComponent implements OnInit {
           isWeekend: day >= 5,
           isFromOtherMonth: fueraDeMes,
           isSunday: day === 6,
-          isHoliday: Math.random() < 1/14,
+          isHoliday: Math.random() < 1 / 14,
         });
 
         // const clave = `${String(mes + 1).padStart(2, "0")}-${String(numero).padStart(2, "0")}`;
