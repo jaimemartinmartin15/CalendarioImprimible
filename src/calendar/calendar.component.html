@@ -60,11 +60,29 @@
                 'cell--weekend': day.isWeekend,
                 'cell--other-month': day.isFromOtherMonth,
                 'cell--sunday': day.isSunday,
-                'cell--holiday': day.isHoliday,
+                'cell--holiday': day.holidays?.length > 0,
               }"
             >
-              <div class="number">{{ day.number }}</div>
-              <!-- TODO events -->
+              <div class="day-number-and-holiday">
+                <span class="day-number">{{ day.number }}</span>
+                <div class="holidays">
+                  @for (holiday of day.holidays; track $index) {
+                    <div class="holiday-name">{{ holiday.name }}</div>
+                  }
+                </div>
+              </div>
+
+              @if (day.moon) {
+                <div class="moon">
+                  {{ day.moon }}
+                </div>
+              }
+
+              <div class="personal-events">
+                @for (personalEvent of day.personalEvents; track $index) {
+                  <div class="personal-event">{{ personalEvent.emoji }} {{ personalEvent.name }}</div>
+                }
+              </div>
             </div>
           }
         }

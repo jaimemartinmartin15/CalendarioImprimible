@@ -1,6 +1,7 @@
 import { NgClass, NgStyle } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
+import { Moon } from "./models";
 
 @Component({
   selector: "app-calendar",
@@ -10,6 +11,22 @@ import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-s
 })
 export class CalendarComponent implements OnInit {
   public year = 2026;
+
+  public holidayEvents: any[] = [
+    { month: 0, day: 6, name: "Día de la constitución" },
+    { month: 0, day: 18, name: "Día de la constitución" },
+  ];
+  public personalEvents: any[] = [
+    { month: 0, day: 6, emoji: "🥳", name: "Cumple tía Araceli" },
+    { month: 0, day: 11, emoji: "🥳", name: "Cumple tía Araceli" },
+    { month: 0, day: 18, emoji: "🥳", name: "Cumple tía Araceli" },
+  ];
+  public moons: Moon[] = [
+    { month: 0, day: 6, phase: "🌑" },
+    { month: 0, day: 18, phase: "🌒" },
+    { month: 0, day: 19, phase: "🌘" },
+    { month: 0, day: 26, phase: "🌕" },
+  ];
 
   public calendar = MONTHS.map((_, i) => ({
     previousMonth: {
@@ -80,20 +97,16 @@ export class CalendarComponent implements OnInit {
         if (day >= 5) clases.push("finde");
         if (day === 6) clases.push("domingo");
 
-        week.days.push({
+        const dayData = {
           number,
           isWeekend: day >= 5,
           isFromOtherMonth: fueraDeMes,
           isSunday: day === 6,
-          isHoliday: Math.random() < 1 / 14,
-        });
-
-        // const clave = `${String(mes + 1).padStart(2, "0")}-${String(numero).padStart(2, "0")}`;
-
-        // rejilla += `<div class="${clases.join(" ")}">
-        //     <div class="num">${numero}</div>
-        //     <div class="eventos"${fueraDeMes ? "" : ` data-md="${clave}"`}></div>
-        //   </div>`;
+          holidays: this.holidayEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
+          personalEvents: this.personalEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
+          moon: this.moons.find((m) => m.month === month && m.day === number && !fueraDeMes)?.phase,
+        };
+        week.days.push(dayData);
       }
     }
 

@@ -87,6 +87,8 @@
     flex-direction: column;
     padding: 1.5mm;
     background-color: var(--color-bg-gray-dark);
+    color: var(--color-black);
+    font-size: 7px;
 
     &--sunday {
       color: var(--color-red);
@@ -106,10 +108,42 @@
       color: var(--color-yellow-dark);
     }
 
-    .number {
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1;
+    .day-number-and-holiday {
+      display: flex;
+      justify-content: flex-start;
+      gap: 2mm;
+
+      .day-number {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .holidays {
+        display: flex;
+        flex-direction: column;
+        gap: 1mm;
+
+        .holiday-name {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .moon {
+      font-size: 10px;
+    }
+
+    .personal-events {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 1mm;
+
+      .personal-event {
+        color: var(--color-black);
+      }
     }
   }
 }
