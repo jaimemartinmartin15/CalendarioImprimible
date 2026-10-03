@@ -1,7 +1,7 @@
 import { NgClass, NgStyle } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
-import { Moon } from "./models";
+import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
 
 @Component({
   selector: "app-calendar",
@@ -12,20 +12,25 @@ import { Moon } from "./models";
 export class CalendarComponent implements OnInit {
   public year = 2026;
 
-  public holidayEvents: any[] = [
-    { month: 0, day: 6, name: "Día de la constitución" },
-    { month: 0, day: 18, name: "Día de la constitución" },
+  public holidayEvents: HolidayEvent[] = [
+    { month: 0, day: 1, name: "Año Nuevo" },
+    { month: 0, day: 6, name: "Reyes" },
   ];
-  public personalEvents: any[] = [
+  public personalEvents: PersonalEvent[] = [
     { month: 0, day: 6, emoji: "🥳", name: "Cumple tía Araceli" },
-    { month: 0, day: 11, emoji: "🥳", name: "Cumple tía Araceli" },
-    { month: 0, day: 18, emoji: "🥳", name: "Cumple tía Araceli" },
+    { month: 0, day: 22, emoji: "🥳", name: "Cumple de Raquel" },
+    { month: 0, day: 31, emoji: "🥳", name: "Cumple de Daniel" },
   ];
-  public moons: Moon[] = [
-    { month: 0, day: 6, phase: "🌑" },
-    { month: 0, day: 18, phase: "🌒" },
-    { month: 0, day: 19, phase: "🌘" },
-    { month: 0, day: 26, phase: "🌕" },
+  public calendarEvents: CalendarEvent[] = [
+    { month: 0, day: 6, emoji: "🌕" },
+    { month: 0, day: 3, emoji: "🌕" },
+    { month: 0, day: 10, emoji: "🌘" },
+    { month: 0, day: 18, emoji: "🌑" },
+    { month: 0, day: 26, emoji: "🌒" },
+    { month: 0, day: 3, emoji: "❄️" },
+    { month: 0, day: 10, emoji: "💮" },
+    { month: 0, day: 18, emoji: "☀️" },
+    { month: 0, day: 26, emoji: "🍂" },
   ];
 
   public calendar = MONTHS.map((_, i) => ({
@@ -104,7 +109,7 @@ export class CalendarComponent implements OnInit {
           isSunday: day === 6,
           holidays: this.holidayEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
           personalEvents: this.personalEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
-          moon: this.moons.find((m) => m.month === month && m.day === number && !fueraDeMes)?.phase,
+          calendarEvents: this.calendarEvents.filter((m) => m.month === month && m.day === number && !fueraDeMes),
         };
         week.days.push(dayData);
       }

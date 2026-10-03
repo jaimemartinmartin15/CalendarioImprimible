@@ -63,20 +63,23 @@
                 'cell--holiday': day.holidays?.length > 0,
               }"
             >
-              <div class="day-number-and-holiday">
-                <span class="day-number">{{ day.number }}</span>
-                <div class="holidays">
+              <div class="box-top">
+                <div class="column-left">
+                  <div class="day-number">{{ day.number }}</div>
+
+                  <div class="calendar-events">
+                    @for (calendarEvent of day.calendarEvents; track $index) {
+                      <div class="calendar-event">{{ calendarEvent.emoji }}</div>
+                    }
+                  </div>
+                </div>
+
+                <div class="holiday-events">
                   @for (holiday of day.holidays; track $index) {
                     <div class="holiday-name">{{ holiday.name }}</div>
                   }
                 </div>
               </div>
-
-              @if (day.moon) {
-                <div class="moon">
-                  {{ day.moon }}
-                </div>
-              }
 
               <div class="personal-events">
                 @for (personalEvent of day.personalEvents; track $index) {

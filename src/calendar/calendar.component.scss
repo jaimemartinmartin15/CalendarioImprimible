@@ -108,30 +108,27 @@
       color: var(--color-yellow-dark);
     }
 
-    .day-number-and-holiday {
+    .box-top {
       display: flex;
-      justify-content: flex-start;
-      gap: 2mm;
+      gap: 1mm;
 
-      .day-number {
-        font-size: 17px;
-        font-weight: 700;
-        line-height: 1;
+      .column-left {
+        .day-number {
+          font-size: 17px;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .calendar-events {
+          font-size: 10px;
+        }
       }
 
-      .holidays {
-        display: flex;
-        flex-direction: column;
-        gap: 1mm;
-
+      .holiday-events {
         .holiday-name {
           font-weight: bold;
         }
       }
-    }
-
-    .moon {
-      font-size: 10px;
     }
 
     .personal-events {
@@ -139,7 +136,6 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      gap: 1mm;
 
       .personal-event {
         color: var(--color-black);

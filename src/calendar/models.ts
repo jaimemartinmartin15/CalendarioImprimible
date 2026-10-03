@@ -1,5 +1,18 @@
-export interface Moon {
+export interface HolidayEvent {
   month: number;
   day: number;
-  phase: "🌑" | "🌒" | "🌘" | "🌕";
+  name: string;
+}
+
+export interface PersonalEvent {
+  month: number;
+  day: number;
+  emoji: string;
+  name: string;
+}
+
+export interface CalendarEvent {
+  month: number;
+  day: number;
+  emoji: string;
 }
