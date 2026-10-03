@@ -8,13 +8,9 @@
             <span class="year">{{ page.previousMonth.year }}</span>
           </h1>
 
-          <div class="days-grid">
+          <div class="mini-days-grid">
             @for (day of getMiniMonthDays(page.previousMonth.monthName, page.previousMonth.year); track $index) {
-              <div
-                [ngStyle]="
-                  $index === 0 ? { 'grid-column-start': getDayStartOffset(page.previousMonth.monthName, page.previousMonth.year) } : {}
-                "
-              >
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.previousMonth.monthName, page.previousMonth.year) } : {}">
                 {{ day }}
               </div>
             }
@@ -32,11 +28,9 @@
             <span class="year">{{ page.nextMonth.year }}</span>
           </h1>
 
-          <div class="days-grid">
+          <div class="mini-days-grid">
             @for (day of getMiniMonthDays(page.nextMonth.monthName, page.nextMonth.year); track $index) {
-              <div
-                [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.nextMonth.monthName, page.nextMonth.year) } : {}"
-              >
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.nextMonth.monthName, page.nextMonth.year) } : {}">
                 {{ day }}
               </div>
             }
@@ -55,7 +49,26 @@
         <span>Domingo</span>
       </div>
 
-      <div class="grid"></div>
+      <div class="main-days-grid">
+        @for (week of weeksForMonth(page.monthName, page.year); track $index) {
+          <div class="week-number">{{ week.number }}</div>
+
+          @for (day of week.days; track $index) {
+            <div
+              [ngClass]="{
+                cell: true,
+                'cell--weekend': day.isWeekend,
+                'cell--other-month': day.isFromOtherMonth,
+                'cell--sunday': day.isSunday,
+                'cell--holiday': day.isHoliday,
+              }"
+            >
+              <div class="number">{{ day.number }}</div>
+              <!-- TODO events -->
+            </div>
+          }
+        }
+      </div>
     </section>
   }
 </div>

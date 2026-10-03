@@ -10,7 +10,7 @@
   }
 
   .month {
-    color: var(--color-text-black);
+    color: var(--color-black);
   }
 
   .year {
@@ -27,7 +27,9 @@
   height: 150mm;
   background: #fff;
   margin: 8mm auto;
-  padding: 7mm;
+  padding: 8mm 4mm 4mm 4mm;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -37,7 +39,7 @@
   .mini-month {
     width: 26mm;
 
-    .days-grid {
+    .mini-days-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       grid-auto-rows: 1fr;
@@ -59,6 +61,56 @@
 
   span:last-child {
     color: var(--color-red);
+  }
+}
+
+.main-days-grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 3.7mm repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1mm;
+
+  .week-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-black);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1mm;
+    width: 100%;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5mm;
+    background-color: var(--color-bg-gray-dark);
+
+    &--sunday {
+      color: var(--color-red);
+    }
+
+    &--weekend {
+      background-color: var(--color-bg-red);
+    }
+
+    &--other-month {
+      background-color: var(--color-bg-gray-light);
+      color: var(--color-gray-light);
+    }
+
+    &--holiday {
+      background-color: var(--color-bg-yellow);
+      color: var(--color-yellow-dark);
+    }
+
+    .number {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1;
+    }
   }
 }
 
