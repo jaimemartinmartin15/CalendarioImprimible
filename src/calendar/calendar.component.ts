@@ -1,53 +1,61 @@
 import { NgClass, NgStyle } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
 import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
+
+//#region local storage
+const LOCAL_STORAGE_PREFIX = "calendario-imprimible";
+const LOCAL_STORAGE_KEYS = {
+  HOLIDAY_EVENTS: `${LOCAL_STORAGE_PREFIX}:holiday-events`,
+  PERSONAL_EVENTS: `${LOCAL_STORAGE_PREFIX}:personal-events`,
+  CALENDAR_EVENTS: `${LOCAL_STORAGE_PREFIX}:calendar-events`,
+};
+//#endregion
 
 @Component({
   selector: "app-calendar",
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.scss"],
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle, NgClass, ReactiveFormsModule],
 })
 export class CalendarComponent implements OnInit {
-  public year = 2026;
+  public availableYears: number[] = [];
+  public selectYearControl = new FormControl<number>(0); // initiated in ngOnInit
 
-  public holidayEvents: HolidayEvent[] = [
-    { month: 0, day: 1, name: "Año Nuevo" },
-    { month: 0, day: 6, name: "Reyes" },
-  ];
-  public personalEvents: PersonalEvent[] = [
-    { month: 0, day: 6, emoji: "🥳", name: "Cumple tía Araceli" },
-    { month: 0, day: 22, emoji: "🥳", name: "Cumple de Raquel" },
-    { month: 0, day: 31, emoji: "🥳", name: "Cumple de Daniel" },
-  ];
-  public calendarEvents: CalendarEvent[] = [
-    { month: 0, day: 6, emoji: "🌕" },
-    { month: 0, day: 3, emoji: "🌕" },
-    { month: 0, day: 10, emoji: "🌘" },
-    { month: 0, day: 18, emoji: "🌑" },
-    { month: 0, day: 26, emoji: "🌒" },
-    { month: 0, day: 3, emoji: "❄️" },
-    { month: 0, day: 10, emoji: "💮" },
-    { month: 0, day: 18, emoji: "☀️" },
-    { month: 0, day: 26, emoji: "🍂" },
-  ];
+  public holidayEvents: HolidayEvent[] = [];
+  public personalEvents: PersonalEvent[] = [];
+  public calendarEvents: CalendarEvent[] = [];
 
-  public calendar = MONTHS.map((_, i) => ({
-    previousMonth: {
-      month: i === 0 ? 11 : i - 1,
-      year: i === 0 ? this.year - 1 : this.year,
-    },
-    nextMonth: {
-      month: i === 11 ? 0 : i + 1,
-      year: i === 11 ? this.year + 1 : this.year,
-    },
-    month: i,
-    year: this.year,
-  }));
+  public calendar: any[]; // TODO typing
 
   public ngOnInit() {
-    // TODO
+    this.loadLocalStorage();
+
+    const currentYear = new Date().getFullYear();
+    this.availableYears = intervalArray(5).map((n) => currentYear + n - 2);
+    this.selectYearControl.valueChanges.subscribe((year) => {
+      // TODO add events and calculate weeks and others directly here
+      this.calendar = MONTHS.map((_, i) => ({
+        previousMonth: {
+          month: i === 0 ? 11 : i - 1,
+          year: i === 0 ? year! - 1 : year,
+        },
+        nextMonth: {
+          month: i === 11 ? 0 : i + 1,
+          year: i === 11 ? year! + 1 : year,
+        },
+        month: i,
+        year,
+      }));
+    });
+    this.selectYearControl.setValue(currentYear + 1);
+  }
+
+  private loadLocalStorage() {
+    this.holidayEvents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS) ?? "[]");
+    this.personalEvents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS) ?? "[]");
+    this.calendarEvents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS) ?? "[]");
   }
 
   public getMonthName(month: number): string {
