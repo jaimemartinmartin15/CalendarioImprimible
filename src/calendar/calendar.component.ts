@@ -1,7 +1,8 @@
 import { NgClass, NgStyle } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
-import { intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
+import { CollapsibleModule, intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
+import { ChevronSvgComponent } from "../svg-output/chevron.component";
 import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
 
 //#region local storage
@@ -17,15 +18,18 @@ const LOCAL_STORAGE_KEYS = {
   selector: "app-calendar",
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.scss"],
-  imports: [NgStyle, NgClass, ReactiveFormsModule],
+  imports: [NgStyle, NgClass, ReactiveFormsModule, CollapsibleModule, ChevronSvgComponent],
 })
 export class CalendarComponent implements OnInit {
   public availableYears: number[] = [];
   public selectYearControl = new FormControl<number>(0); // initiated in ngOnInit
 
   public holidayEvents: HolidayEvent[] = [];
+  public holidayListIsExpanded: boolean = true;
   public personalEvents: PersonalEvent[] = [];
+  public personalListIsExpanded: boolean = true;
   public calendarEvents: CalendarEvent[] = [];
+  public calendarListIsExpanded: boolean = true;
 
   public calendar: any[]; // TODO typing
 

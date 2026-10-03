@@ -103,4 +103,62 @@
       }
     </select>
   </label>
+
+  <jei-collapsible [isOpen]="true" class="events-list">
+    <div jeiCollapsibleToggleAction (click)="holidayListIsExpanded = !holidayListIsExpanded" class="list-name">
+      <svg appChevronSvg [ngClass]="{ opened: holidayListIsExpanded }"></svg>
+      <span>DÍAS FESTIVOS</span>
+    </div>
+
+    <div jeiCollapsibleContent>
+      @if (holidayEvents.length > 0) {
+        <ul>
+          @for (item of holidayEvents; track $index) {
+            <li>{{ item.name }}</li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
+
+  <jei-collapsible [isOpen]="true" class="events-list">
+    <div jeiCollapsibleToggleAction (click)="personalListIsExpanded = !personalListIsExpanded" class="list-name">
+      <svg appChevronSvg [ngClass]="{ opened: personalListIsExpanded }"></svg>
+      <span>EVENTOS PERSONALES</span>
+    </div>
+
+    <div jeiCollapsibleContent>
+      @if (personalEvents.length > 0) {
+        <ul>
+          @for (item of personalEvents; track $index) {
+            <li>{{ item.name }}</li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
+
+  <jei-collapsible [isOpen]="true" class="events-list">
+    <div jeiCollapsibleToggleAction (click)="calendarListIsExpanded = !calendarListIsExpanded" class="list-name">
+      <svg appChevronSvg [ngClass]="{ opened: calendarListIsExpanded }"></svg>
+      <span>EVENTOS DE</span>
+      CALENDARIO
+    </div>
+
+    <div jeiCollapsibleContent>
+      @if (calendarEvents.length > 0) {
+        <ul>
+          @for (item of calendarEvents; track $index) {
+            <li>{{ item.emoji }}</li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
 </aside>

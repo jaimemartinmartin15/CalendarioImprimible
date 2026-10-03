@@ -6,7 +6,7 @@
     "start:public": "ng serve -o --host 0.0.0.0 --port 80",
     "start:prod": "mv dist/calendarioimprimible dist/dist && mv dist/dist/browser dist/dist/calendario-imprimible && cd dist/dist/ && live-server . --open=calendario-imprimible",
     "build": "ng build --base-href /calendario-imprimible/",
-    "icons": "ng run project-name:icons",
+    "icons": "ng run calendarioimprimible:icons",
     "aws-deploy": "ng deploy"
   },
   "private": true,
