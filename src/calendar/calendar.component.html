@@ -94,4 +94,13 @@
   }
 </div>
 
-<aside class="panel"></aside>
+<aside class="panel">
+  <label class="select-year-control">
+    <div>Selecciona el año</div>
+    <select class="year-select" [formControl]="selectYearControl">
+      @for (year of availableYears; track $index) {
+        <option [value]="year">{{ year }}</option>
+      }
+    </select>
+  </label>
+</aside>
