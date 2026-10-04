@@ -1,4 +1,4 @@
-<div class="mini-calendar">
+<div class="mini-calendar no-printable">
   @for (page of calendar; track page) {
     <div class="mini-page month-and-year" (click)="scrollToMonth(page.month)">
       <div class="month">{{ page.monthName }}</div>
@@ -106,7 +106,7 @@
   }
 </div>
 
-<aside class="panel">
+<aside class="panel no-printable">
   <label class="select-year-control">
     <div>Selecciona el año</div>
     <select class="year-select" [formControl]="selectYearControl">

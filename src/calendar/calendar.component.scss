@@ -339,3 +339,22 @@
   text-align: end;
   margin-right: 5px;
 }
+
+@media print {
+  @page {
+    size: 210mm 150mm;
+    margin: 0;
+  }
+
+  * {
+    print-color-adjust: exact !important;
+  }
+
+  .no-printable {
+    display: none !important;
+  }
+
+  .page {
+    margin: 0;
+  }
+}
