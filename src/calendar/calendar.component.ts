@@ -6,12 +6,20 @@ import { ChevronSvgComponent } from "../svg-output/chevron.component";
 import { PlusSvgComponent } from "../svg-output/plus.component";
 import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
 
-//#region local storage
+//#region utils
 const LOCAL_STORAGE_PREFIX = "calendario-imprimible";
 const LOCAL_STORAGE_KEYS = {
   HOLIDAY_EVENTS: `${LOCAL_STORAGE_PREFIX}:holiday-events`,
   PERSONAL_EVENTS: `${LOCAL_STORAGE_PREFIX}:personal-events`,
   CALENDAR_EVENTS: `${LOCAL_STORAGE_PREFIX}:calendar-events`,
+};
+
+const dateSorter = (a: { day: number; month: number }, b: { day: number; month: number }) => {
+  if (a.month < b.month) return -1;
+  if (a.month > b.month) return 1;
+  if (a.day < b.day) return -1;
+  if (a.day > b.day) return 1;
+  return 0;
 };
 //#endregion
 
@@ -139,10 +147,12 @@ export class CalendarComponent implements OnInit {
 
   public saveHolidayDay(newValue: number, item: HolidayEvent): void {
     item.day = +newValue;
+    this.holidayEvents = this.holidayEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
   }
   public saveHolidayMonth(newValue: number, item: HolidayEvent): void {
     item.month = +newValue;
+    this.holidayEvents = this.holidayEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
   }
 
@@ -165,10 +175,12 @@ export class CalendarComponent implements OnInit {
 
   public savePersonalEventDay(newValue: number, item: PersonalEvent): void {
     item.day = +newValue;
+    this.personalEvents = this.personalEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
   }
   public savePersonalEventMonth(newValue: number, item: PersonalEvent): void {
     item.month = +newValue;
+    this.personalEvents = this.personalEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
   }
 
@@ -196,10 +208,12 @@ export class CalendarComponent implements OnInit {
 
   public saveCalendarEventDay(newValue: number, item: CalendarEvent): void {
     item.day = +newValue;
+    this.calendarEvents = this.calendarEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
   }
   public saveCalendarEventMonth(newValue: number, item: CalendarEvent): void {
     item.month = +newValue;
+    this.calendarEvents = this.calendarEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
   }
 
