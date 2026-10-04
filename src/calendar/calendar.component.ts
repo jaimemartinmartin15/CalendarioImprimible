@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { CollapsibleModule, intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
 import { ChevronSvgComponent } from "../svg-output/chevron.component";
+import { PlusSvgComponent } from "../svg-output/plus.component";
 import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
 
 //#region local storage
@@ -18,7 +19,7 @@ const LOCAL_STORAGE_KEYS = {
   selector: "app-calendar",
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.scss"],
-  imports: [NgStyle, NgClass, ReactiveFormsModule, CollapsibleModule, ChevronSvgComponent],
+  imports: [NgStyle, NgClass, ReactiveFormsModule, CollapsibleModule, ChevronSvgComponent, PlusSvgComponent],
 })
 export class CalendarComponent implements OnInit {
   public availableYears: number[] = [];
@@ -128,5 +129,25 @@ export class CalendarComponent implements OnInit {
     }
 
     return weeks;
+  }
+
+  public addNewHoliday(): void {
+    this.holidayEvents.unshift({ month: 0, day: 1, name: "" });
+    localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+  }
+
+  public saveHolidayEvents(newValue: string, item: HolidayEvent): void {
+    item.name = newValue;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+  }
+
+  public removeHoliday(item: HolidayEvent): void {
+    this.holidayEvents.splice(this.holidayEvents.indexOf(item), 1);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+  }
+
+  public printShortDate(month: number, day: number): string {
+    const shortMonth = MONTHS[month].substring(0, 3).toLowerCase();
+    return `${day} ${shortMonth}`;
   }
 }
