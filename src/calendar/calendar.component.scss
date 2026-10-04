@@ -172,11 +172,13 @@
       justify-content: flex-end;
 
       .personal-event {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6mm;
         color: var(--color-black);
 
         .emoji {
           font-size: 10px;
-          margin-right: 0.6mm;
         }
       }
     }
