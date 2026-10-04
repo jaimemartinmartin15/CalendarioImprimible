@@ -135,14 +135,15 @@
     </div>
 
     <div jeiCollapsibleContent>
-      <button class="add-event-button">Añadir evento</button>
+      <button class="add-event-button" (click)="addNewPersonalEvent()">Añadir evento</button>
       @if (personalEvents.length > 0) {
         <ul class="events-list">
           @for (item of personalEvents; track $index) {
             <li class="event-list-item">
               <span class="date jei-no-break">{{ printShortDate(item.month, item.day) }}</span>
-              <input type="text" class="name" />
-              <svg appPlusSvg [color]="'#d2322d'"></svg>
+              <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="savePersonalEventEmoji($event.target.value, item)" />
+              <input type="text" placeholder="Introduce el evento" [value]="item.name" class="name personal" (input)="savePersonalEventName($event.target.value, item)" />
+              <svg appPlusSvg [color]="'#d2322d'" (click)="removePersonalEvent(item)"></svg>
             </li>
           }
         </ul>
@@ -159,14 +160,15 @@
     </div>
 
     <div jeiCollapsibleContent>
-      <button class="add-event-button">Añadir evento</button>
+      <button class="add-event-button" (click)="addNewCalendarEvent()">Añadir evento</button>
       @if (calendarEvents.length > 0) {
         <ul class="events-list">
           @for (item of calendarEvents; track $index) {
             <li class="event-list-item">
               <span class="date jei-no-break">{{ printShortDate(item.month, item.day) }}</span>
-              <input type="text" class="name" />
-              <svg appPlusSvg [color]="'#d2322d'"></svg>
+              <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="saveCalendarEventEmoji($event.target.value, item)" />
+              <div class="name"><!-- mock element to take space --></div>
+              <svg appPlusSvg [color]="'#d2322d'" (click)="removeCalendarEvent(item)"></svg>
             </li>
           }
         </ul>

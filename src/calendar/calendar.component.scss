@@ -214,25 +214,47 @@
     border-bottom: 1px solid var(--color-gray-light);
   }
 
+  .emoji {
+    border: 1px solid var(--color-gray-light);
+    border-radius: 4px;
+    margin: 0 0 0 10px;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    vertical-align: middle;
+
+    &::placeholder {
+      opacity: 0.4;
+    }
+  }
 
   .name {
     flex-grow: 1;
     margin: 0 10px;
     border: none;
     outline: none;
+    font-size: 11px;
+    font-weight: bold;
 
     &:focus {
       border-bottom: 1px solid var(--color-gray-dark);
     }
 
-    &::placeholder,
     &.holiday {
       color: var(--color-yellow-dark);
-      font-size: 11px;
-      font-weight: bold;
+
+      &::placeholder {
+        color: var(--color-yellow-light);
+      }
     }
-    &::placeholder {
-      color: var(--color-yellow-light);
+
+    &.personal {
+      color: var(--color-black);
+
+      &::placeholder {
+        color: var(--color-gray-dark);
+      }
     }
   }
 
