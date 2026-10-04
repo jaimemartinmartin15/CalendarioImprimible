@@ -1,5 +1,5 @@
 <div class="calendar">
-  @for (page of calendar; track $index) {
+  @for (page of calendar; track page.monthName) {
     <section class="page">
       <header class="header">
         <div class="mini-month">
@@ -9,7 +9,7 @@
           </h1>
 
           <div class="mini-days-grid">
-            @for (day of page.previousMonth.days; track $index) {
+            @for (day of page.previousMonth.days; track day) {
               <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.previousMonth.dayStartOffset } : {}">
                 {{ day }}
               </div>
@@ -29,7 +29,7 @@
           </h1>
 
           <div class="mini-days-grid">
-            @for (day of page.nextMonth.days; track $index) {
+            @for (day of page.nextMonth.days; track day) {
               <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.nextMonth.dayStartOffset } : {}">
                 {{ day }}
               </div>
@@ -50,10 +50,10 @@
       </div>
 
       <div class="main-days-grid">
-        @for (week of page.weeks; track $index) {
+        @for (week of page.weeks; track week.weekNumberOfTheYear) {
           <div class="week-number">{{ week.weekNumberOfTheYear }}</div>
 
-          @for (day of week.days; track $index) {
+          @for (day of week.days; track day) {
             <div
               [ngClass]="{
                 cell: true,
@@ -68,21 +68,21 @@
                   <div class="day-number">{{ day.dayNumber }}</div>
 
                   <div class="calendar-events">
-                    @for (calendarEvent of day.calendarEvents; track $index) {
+                    @for (calendarEvent of day.calendarEvents; track calendarEvent) {
                       <div class="calendar-event">{{ calendarEvent.emoji }}</div>
                     }
                   </div>
                 </div>
 
                 <div class="holiday-events">
-                  @for (holiday of day.holidays; track $index) {
+                  @for (holiday of day.holidays; track holiday) {
                     <div class="holiday-name">{{ holiday.name }}</div>
                   }
                 </div>
               </div>
 
               <div class="personal-events">
-                @for (personalEvent of day.personalEvents; track $index) {
+                @for (personalEvent of day.personalEvents; track personalEvent) {
                   <div class="personal-event">
                     <span class="emoji">{{ personalEvent.emoji }}</span>
                     <span>{{ personalEvent.name }}</span>
@@ -101,7 +101,7 @@
   <label class="select-year-control">
     <div>Selecciona el año</div>
     <select class="year-select" [formControl]="selectYearControl">
-      @for (year of availableYears; track $index) {
+      @for (year of availableYears; track year) {
         <option [value]="year">{{ year }}</option>
       }
     </select>
@@ -117,7 +117,7 @@
       <button class="add-event-button" (click)="addNewHoliday()">Añadir festivo</button>
       @if (holidayEvents.length > 0) {
         <ul class="events-list">
-          @for (item of holidayEvents; track $index) {
+          @for (item of holidayEvents; track item) {
             <li class="event-list-item">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="saveHolidayDay($any($event.target).value, item)">
@@ -189,7 +189,7 @@
       <button class="add-event-button" (click)="addNewPersonalEvent()">Añadir evento</button>
       @if (personalEvents.length > 0) {
         <ul class="events-list">
-          @for (item of personalEvents; track $index) {
+          @for (item of personalEvents; track item) {
             <li class="event-list-item">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="savePersonalEventDay($any($event.target).value, item)">
@@ -262,7 +262,7 @@
       <button class="add-event-button" (click)="addNewCalendarEvent()">Añadir evento</button>
       @if (calendarEvents.length > 0) {
         <ul class="events-list">
-          @for (item of calendarEvents; track $index) {
+          @for (item of calendarEvents; track item) {
             <li class="event-list-item">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="saveCalendarEventDay($any($event.target).value, item)">
