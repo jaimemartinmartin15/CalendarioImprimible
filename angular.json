@@ -106,7 +106,7 @@
           "options": {
             "serverSegment": "calendario-imprimible",
             "distFolder": "dist/calendarioimprimible/browser",
-            "overriddenRequest": {},
+            "overriddenRequest": [],
             "noCache": ["index.html"]
           }
         }
