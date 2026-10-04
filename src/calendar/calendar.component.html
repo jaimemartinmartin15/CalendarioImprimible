@@ -4,13 +4,13 @@
       <header class="header">
         <div class="mini-month">
           <h1 class="month-and-year mini">
-            <span class="month">{{ getMonthName(page.previousMonth.month) }} </span>
+            <span class="month">{{ page.previousMonth.monthName }} </span>
             <span class="year">{{ page.previousMonth.year }}</span>
           </h1>
 
           <div class="mini-days-grid">
-            @for (day of getMiniMonthDays(page.previousMonth.year, page.previousMonth.month); track $index) {
-              <div [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.previousMonth.year, page.previousMonth.month) } : {}">
+            @for (day of page.previousMonth.days; track $index) {
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.previousMonth.dayStartOffset } : {}">
                 {{ day }}
               </div>
             }
@@ -18,19 +18,19 @@
         </div>
 
         <h1 class="month-and-year">
-          <span class="month">{{ getMonthName(page.month) }} </span>
+          <span class="month">{{ page.monthName }} </span>
           <span class="year">{{ page.year }}</span>
         </h1>
 
         <div class="mini-month">
           <h1 class="month-and-year mini">
-            <span class="month">{{ getMonthName(page.nextMonth.month) }} </span>
+            <span class="month">{{ page.nextMonth.monthName }} </span>
             <span class="year">{{ page.nextMonth.year }}</span>
           </h1>
 
           <div class="mini-days-grid">
-            @for (day of getMiniMonthDays(page.nextMonth.year, page.nextMonth.month); track $index) {
-              <div [ngStyle]="$index === 0 ? { 'grid-column-start': getDayStartOffset(page.nextMonth.year, page.nextMonth.month) } : {}">
+            @for (day of page.nextMonth.days; track $index) {
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.nextMonth.dayStartOffset } : {}">
                 {{ day }}
               </div>
             }
@@ -50,8 +50,8 @@
       </div>
 
       <div class="main-days-grid">
-        @for (week of weeksForMonth(page.year, page.month); track $index) {
-          <div class="week-number">{{ week.number }}</div>
+        @for (week of page.weeks; track $index) {
+          <div class="week-number">{{ week.weekNumberOfTheYear }}</div>
 
           @for (day of week.days; track $index) {
             <div
@@ -65,7 +65,7 @@
             >
               <div class="box-top">
                 <div class="column-left">
-                  <div class="day-number">{{ day.number }}</div>
+                  <div class="day-number">{{ day.dayNumber }}</div>
 
                   <div class="calendar-events">
                     @for (calendarEvent of day.calendarEvents; track $index) {

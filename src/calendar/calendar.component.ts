@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { CollapsibleModule, intervalArray, MONTHS } from "@jaimemartinmartin15/jei-devkit-angular-shared";
 import { ChevronSvgComponent } from "../svg-output/chevron.component";
 import { PlusSvgComponent } from "../svg-output/plus.component";
-import { CalendarEvent, HolidayEvent, PersonalEvent } from "./models";
+import { CalendarEvent, CalendarPage, DayBox, HolidayEvent, PersonalEvent, Week } from "./models";
 
 //#region utils
 const LOCAL_STORAGE_PREFIX = "calendario-imprimible";
@@ -40,7 +40,7 @@ export class CalendarComponent implements OnInit {
   public calendarEvents: CalendarEvent[] = [];
   public calendarListIsExpanded: boolean = true;
 
-  public calendar: any[]; // TODO typing
+  public calendar: CalendarPage[];
 
   public ngOnInit() {
     this.loadLocalStorage();
@@ -48,19 +48,33 @@ export class CalendarComponent implements OnInit {
     const currentYear = new Date().getFullYear();
     this.availableYears = intervalArray(5).map((n) => currentYear + n - 2);
     this.selectYearControl.valueChanges.subscribe((year) => {
-      // TODO add events and calculate weeks and others directly here
-      this.calendar = MONTHS.map((_, i) => ({
-        previousMonth: {
-          month: i === 0 ? 11 : i - 1,
-          year: i === 0 ? year! - 1 : year,
-        },
-        nextMonth: {
-          month: i === 11 ? 0 : i + 1,
-          year: i === 11 ? year! + 1 : year,
-        },
-        month: i,
-        year,
-      }));
+      year ??= currentYear;
+      this.calendar = MONTHS.map((_, month) => {
+        const previousMonth = month === 0 ? 11 : month - 1;
+        const previousYear = month === 0 ? year - 1 : year;
+        const nextMonth = month === 11 ? 0 : month + 1;
+        const nextYear = month === 11 ? year + 1 : year;
+        return {
+          previousMonth: {
+            month: previousMonth,
+            year: previousYear,
+            days: this.getMiniMonthDays(previousYear, previousMonth),
+            dayStartOffset: this.getDayStartOffset(previousYear, previousMonth),
+            monthName: this.getMonthName(previousMonth),
+          },
+          nextMonth: {
+            month: nextMonth,
+            year: nextYear,
+            days: this.getMiniMonthDays(nextYear, nextMonth),
+            dayStartOffset: this.getDayStartOffset(nextYear, nextMonth),
+            monthName: this.getMonthName(nextMonth),
+          },
+          month,
+          year,
+          monthName: this.getMonthName(month),
+          weeks: this.getWeeksForMonth(year, month),
+        };
+      });
     });
     this.selectYearControl.setValue(currentYear + 1);
   }
@@ -71,18 +85,19 @@ export class CalendarComponent implements OnInit {
     this.calendarEvents = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS) ?? "[]");
   }
 
-  public getMonthName(month: number): string {
+  private getMonthName(month: number): string {
     return MONTHS[month].toLowerCase();
   }
 
-  public getMiniMonthDays(year: number, month: number): number[] {
+  private getMiniMonthDays(year: number, month: number): number[] {
+    // by adding 1 to the month and using 0 as day, the result is the last day of desired month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     return intervalArray(daysInMonth);
   }
 
-  public getDayStartOffset(year: number, month: number): number {
+  private getDayStartOffset(year: number, month: number): number {
     // getDay(): 0 -> Sunday, 1 -> Monday, ... , 6 -> Saturday
-    return new Date(year, month, 1).getDay() || 7;
+    return new Date(year, month, 1).getDay() || 7; // for css, index starts with 1
   }
 
   private getISOWeek(year: number, month: number, day: number): number {
@@ -97,40 +112,35 @@ export class CalendarComponent implements OnInit {
     return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   }
 
-  // TODO typing
-  public weeksForMonth(year: number, month: number): any[] {
-    const weeks: any[] = [];
+  private getWeeksForMonth(year: number, month: number): Week[] {
+    const weeks: Week[] = [];
 
-    const offset = this.getDayStartOffset(month, year) - 1;
+    const offset = this.getDayStartOffset(year, month) - 1;
     const numberOfDaysInMonth = new Date(year, month + 1, 0).getDate();
     const numberOfDaysInPreviousMonth = new Date(year, month, 0).getDate();
 
     const rows = Math.ceil((offset + numberOfDaysInMonth) / 7);
     for (let row = 0; row < rows; row++) {
-      const week: any = { days: [] };
+      const mondayIndex = row * 7 - offset + 1; // +1 because day can't be 0
+      const week: Week = {
+        weekNumberOfTheYear: this.getISOWeek(year, month, mondayIndex),
+        days: [],
+      };
       weeks.push(week);
 
-      const mondayIndex = row * 7 - offset + 1;
-      week.number = this.getISOWeek(year, month, mondayIndex);
-
       for (let day = 0; day < 7; day++) {
-        const indice = row * 7 + day - offset + 1;
-        const fueraDeMes = indice < 1 || indice > numberOfDaysInMonth;
-        const number = fueraDeMes ? (indice < 1 ? numberOfDaysInPreviousMonth + indice : indice - numberOfDaysInMonth) : indice;
+        let dayNumber = row * 7 + day - offset + 1; // +1 because day can't be 0
+        const isOtherMonth = dayNumber < 1 || dayNumber > numberOfDaysInMonth;
+        dayNumber = isOtherMonth ? (dayNumber < 1 ? numberOfDaysInPreviousMonth + dayNumber : dayNumber - numberOfDaysInMonth) : dayNumber;
 
-        const clases = ["celda"];
-        if (fueraDeMes) clases.push("otro-mes");
-        if (day >= 5) clases.push("finde");
-        if (day === 6) clases.push("domingo");
-
-        const dayData = {
-          number,
+        const dayData: DayBox = {
+          dayNumber,
           isWeekend: day >= 5,
-          isFromOtherMonth: fueraDeMes,
+          isFromOtherMonth: isOtherMonth,
           isSunday: day === 6,
-          holidays: this.holidayEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
-          personalEvents: this.personalEvents.filter((e) => e.month === month && e.day === number && !fueraDeMes),
-          calendarEvents: this.calendarEvents.filter((m) => m.month === month && m.day === number && !fueraDeMes),
+          holidays: this.holidayEvents.filter((e) => e.month === month && e.day === dayNumber && !isOtherMonth),
+          personalEvents: this.personalEvents.filter((e) => e.month === month && e.day === dayNumber && !isOtherMonth),
+          calendarEvents: this.calendarEvents.filter((m) => m.month === month && m.day === dayNumber && !isOtherMonth),
         };
         week.days.push(dayData);
       }
