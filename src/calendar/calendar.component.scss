@@ -69,6 +69,10 @@
   .mini-month {
     width: 26mm;
 
+    &.previous {
+      margin-left: 4.7mm; // 3.7mm sem column + 1mm gap
+    }
+
     .mini-days-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);

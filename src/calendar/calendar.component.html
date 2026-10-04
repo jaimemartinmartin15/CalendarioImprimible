@@ -11,7 +11,7 @@
   @for (page of calendar; track page.monthName) {
     <section [id]="'page-' + page.month" class="page">
       <header class="header">
-        <div class="mini-month">
+        <div class="mini-month previous">
           <h1 class="month-and-year mini">
             <span class="month">{{ page.previousMonth.monthName }} </span>
             <span class="year">{{ page.previousMonth.year }}</span>
