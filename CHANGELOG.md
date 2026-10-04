@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.1
+
+- Fix printer margins.
+
 ## 1.0.0
 
 Initial release:

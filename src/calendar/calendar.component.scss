@@ -53,7 +53,7 @@
 
 .page {
   width: 210mm;
-  height: 150mm;
+  height: 148.5mm;
   background: #fff;
   margin: 8mm auto;
   padding: 8mm 4mm 4mm 4mm;
@@ -342,7 +342,7 @@
 
 @media print {
   @page {
-    size: 210mm 150mm;
+    size: 210mm 297mm;
     margin: 0;
   }
 
