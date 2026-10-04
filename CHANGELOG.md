@@ -4,6 +4,6 @@
 
 Initial release:
 
-- TODO: feature 1
-- TODO: feature 2
-- TODO: ...
+- Select the year.
+- Add holidays, personal events and calendar events.
+- Navigate through the calendar with the mini-calendar.
