@@ -131,12 +131,22 @@ export class CalendarComponent implements OnInit {
     return weeks;
   }
 
+  //#region holidays
   public addNewHoliday(): void {
     this.holidayEvents.unshift({ month: 0, day: 1, name: "" });
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
   }
 
-  public saveHolidayEvents(newValue: string, item: HolidayEvent): void {
+  public saveHolidayDay(newValue: number, item: HolidayEvent): void {
+    item.day = +newValue;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+  }
+  public saveHolidayMonth(newValue: number, item: HolidayEvent): void {
+    item.month = +newValue;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+  }
+
+  public saveHolidayName(newValue: string, item: HolidayEvent): void {
     item.name = newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
   }
@@ -145,9 +155,20 @@ export class CalendarComponent implements OnInit {
     this.holidayEvents.splice(this.holidayEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
   }
+  //#endregion
 
+  //#region personal
   public addNewPersonalEvent(): void {
     this.personalEvents.unshift({ month: 0, day: 1, emoji: "", name: "" });
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+  }
+
+  public savePersonalEventDay(newValue: number, item: PersonalEvent): void {
+    item.day = +newValue;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+  }
+  public savePersonalEventMonth(newValue: number, item: PersonalEvent): void {
+    item.month = +newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
   }
 
@@ -165,9 +186,20 @@ export class CalendarComponent implements OnInit {
     this.personalEvents.splice(this.personalEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
   }
+  //#endregion
 
+  //#region calendar
   public addNewCalendarEvent(): void {
     this.calendarEvents.unshift({ month: 0, day: 1, emoji: "" });
+    localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+  }
+
+  public saveCalendarEventDay(newValue: number, item: CalendarEvent): void {
+    item.day = +newValue;
+    localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+  }
+  public saveCalendarEventMonth(newValue: number, item: CalendarEvent): void {
+    item.month = +newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
   }
 
@@ -180,9 +212,5 @@ export class CalendarComponent implements OnInit {
     this.calendarEvents.splice(this.calendarEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
   }
-
-  public printShortDate(month: number, day: number): string {
-    const shortMonth = MONTHS[month].substring(0, 3).toLowerCase();
-    return `${day} ${shortMonth}`;
-  }
+  //#endregion
 }

@@ -119,8 +119,56 @@
         <ul class="events-list">
           @for (item of holidayEvents; track $index) {
             <li class="event-list-item">
-              <span class="date jei-no-break">{{ printShortDate(item.month, item.day) }}</span>
-              <input type="text" placeholder="Introduce el día festivo" [value]="item.name" class="name holiday" (input)="saveHolidayEvents($event.target.value, item)" />
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="saveHolidayDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="saveHolidayMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
+              <input type="text" placeholder="Introduce el día festivo" [value]="item.name" class="name holiday" (input)="saveHolidayName($event.target.value, item)" />
               <svg appPlusSvg [color]="'#d2322d'" (click)="removeHoliday(item)"></svg>
             </li>
           }
@@ -143,7 +191,55 @@
         <ul class="events-list">
           @for (item of personalEvents; track $index) {
             <li class="event-list-item">
-              <span class="date jei-no-break">{{ printShortDate(item.month, item.day) }}</span>
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="savePersonalEventDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="savePersonalEventMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
               <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="savePersonalEventEmoji($event.target.value, item)" />
               <input type="text" placeholder="Introduce el evento" [value]="item.name" class="name personal" (input)="savePersonalEventName($event.target.value, item)" />
               <svg appPlusSvg [color]="'#d2322d'" (click)="removePersonalEvent(item)"></svg>
@@ -168,7 +264,55 @@
         <ul class="events-list">
           @for (item of calendarEvents; track $index) {
             <li class="event-list-item">
-              <span class="date jei-no-break">{{ printShortDate(item.month, item.day) }}</span>
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="saveCalendarEventDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="saveCalendarEventMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
               <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="saveCalendarEventEmoji($event.target.value, item)" />
               <div class="name"><!-- mock element to take space --></div>
               <svg appPlusSvg [color]="'#d2322d'" (click)="removeCalendarEvent(item)"></svg>
