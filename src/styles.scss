@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-gray-light: #c9c9c9;
+  --color-gray-dark: #8a8a8a;
+  --color-red: #d2322d;
+  --color-black: #3a3a3a;
+  --color-yellow-light: #ccd56b;
+  --color-yellow-dark: #a67c00;
+
+  --color-bg-red: #f5dedb;
+  --color-bg-gray-light: #fafafa;
+  --color-bg-gray-dark: #ededed;
+  --color-bg-yellow: #fdf0c2;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-gray-dark);
+  font-family: "Helvetica Neue", Arial, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

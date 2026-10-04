@@ -1,0 +1,360 @@
+@use "@jaimemartinmartin15/jei-devkit-angular-shared/styles/utils";
+
+:host {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.month-and-year {
+  &.mini {
+    font-size: 9.5px;
+  }
+
+  .month {
+    color: var(--color-black);
+  }
+
+  .year {
+    color: var(--color-red);
+  }
+}
+
+.mini-calendar {
+  position: sticky;
+  top: 8mm;
+  width: 100px;
+  max-height: calc(100vh - 8mm - 8mm);
+  margin-top: 8mm;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .mini-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    flex-grow: 1;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+}
+
+.calendar {
+  width: 210mm;
+}
+
+.page {
+  width: 210mm;
+  height: 150mm;
+  background: #fff;
+  margin: 8mm auto;
+  padding: 8mm 4mm 4mm 4mm;
+  display: flex;
+  flex-direction: column;
+  scroll-margin-top: 90px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  .mini-month {
+    width: 26mm;
+
+    &.previous {
+      margin-left: 4.7mm; // 3.7mm sem column + 1mm gap
+    }
+
+    .mini-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 1mm;
+      font-size: 8px;
+      text-align: center;
+    }
+  }
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: 4.7mm repeat(7, 1fr);
+  column-gap: 1mm;
+  font-size: 8pt;
+  font-weight: 700;
+  text-align: left;
+  margin: 3mm 0 1mm 0;
+
+  span:last-child {
+    color: var(--color-red);
+  }
+}
+
+.main-days-grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 3.7mm repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1mm;
+
+  .week-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-black);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1mm;
+    width: 100%;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5mm;
+    background-color: var(--color-bg-gray-dark);
+    color: var(--color-black);
+    font-size: 7px;
+
+    &--sunday {
+      color: var(--color-red);
+    }
+
+    &--weekend {
+      background-color: var(--color-bg-red);
+    }
+
+    &--other-month {
+      background-color: var(--color-bg-gray-light);
+      color: var(--color-gray-light);
+    }
+
+    &--holiday {
+      background-color: var(--color-bg-yellow);
+      color: var(--color-yellow-dark);
+    }
+
+    .box-top {
+      display: flex;
+      gap: 1mm;
+
+      .column-left {
+        .day-number {
+          font-size: 17px;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .calendar-events {
+          font-size: 10px;
+        }
+      }
+
+      .holiday-events {
+        .holiday-name {
+          font-weight: bold;
+        }
+      }
+    }
+
+    .personal-events {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      .personal-event {
+        display: flex;
+        align-items: baseline;
+        gap: 0.6mm;
+        color: var(--color-black);
+
+        .emoji {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
+
+.panel {
+  position: sticky;
+  top: 8mm;
+  width: 380px;
+  max-height: calc(100vh - 8mm - 8mm);
+  margin-top: 8mm;
+  background: #fff;
+  padding: 22px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+}
+
+.select-year-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  .year-select {
+    padding: 5px;
+    border-radius: 8px;
+  }
+}
+
+.collapsible {
+  margin-top: 15px;
+
+  .list-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: #6b6b6b;
+    list-style: none;
+
+    svg[appChevronSvg] {
+      width: 10px;
+      transform: rotate(-90deg);
+      transition: transform 0.3s;
+
+      &.opened {
+        transform: rotate(0deg);
+      }
+    }
+  }
+}
+
+.events-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  color: var(--color-gray-dark);
+}
+
+.event-list-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 7px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-gray-light);
+  }
+
+  .emoji {
+    border: 1px solid var(--color-gray-light);
+    border-radius: 4px;
+    margin: 0 0 0 10px;
+    flex-shrink: 0;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    vertical-align: middle;
+
+    &::placeholder {
+      opacity: 0.4;
+    }
+  }
+
+  .name {
+    flex-grow: 1;
+    margin: 0 10px;
+    border: none;
+    outline: none;
+    font-size: 11px;
+    font-weight: bold;
+
+    &:focus {
+      border-bottom: 1px solid var(--color-gray-dark);
+    }
+
+    &.holiday {
+      color: var(--color-yellow-dark);
+
+      &::placeholder {
+        color: var(--color-yellow-light);
+      }
+    }
+
+    &.personal {
+      color: var(--color-black);
+
+      &::placeholder {
+        color: var(--color-gray-dark);
+      }
+    }
+  }
+
+  svg[appPlusSvg] {
+    flex-shrink: 0;
+    width: 15px;
+    transform: rotate(45deg);
+    cursor: pointer;
+  }
+}
+
+.no-elements-message {
+  color: #a0a0a0;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.add-event-button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 18px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--color-black);
+  cursor: pointer;
+}
+
+.select-month,
+.select-day {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  font-size: 11px;
+  margin: 0;
+  padding: 0;
+  color: var(--color-gray-dark);
+  cursor: pointer;
+  outline: none;
+}
+
+.select-day {
+  text-align: end;
+  margin-right: 5px;
+}
+
+@media print {
+  @page {
+    size: 210mm 150mm;
+    margin: 0;
+  }
+
+  * {
+    print-color-adjust: exact !important;
+  }
+
+  .no-printable {
+    display: none !important;
+  }
+
+  .page {
+    margin: 0;
+  }
+}

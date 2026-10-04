@@ -1,0 +1,336 @@
+<div class="mini-calendar no-printable">
+  @for (page of calendar; track page) {
+    <div class="mini-page month-and-year" (click)="scrollToMonth(page.month)">
+      <div class="month">{{ page.monthName }}</div>
+      <div class="year">{{ page.year }}</div>
+    </div>
+  }
+</div>
+
+<div class="calendar">
+  @for (page of calendar; track page.monthName) {
+    <section [id]="'page-' + page.month" class="page">
+      <header class="header">
+        <div class="mini-month previous">
+          <h1 class="month-and-year mini">
+            <span class="month">{{ page.previousMonth.monthName }} </span>
+            <span class="year">{{ page.previousMonth.year }}</span>
+          </h1>
+
+          <div class="mini-days-grid">
+            @for (day of page.previousMonth.days; track day) {
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.previousMonth.dayStartOffset } : {}">
+                {{ day }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <h1 class="month-and-year">
+          <span class="month">{{ page.monthName }} </span>
+          <span class="year">{{ page.year }}</span>
+        </h1>
+
+        <div class="mini-month">
+          <h1 class="month-and-year mini">
+            <span class="month">{{ page.nextMonth.monthName }} </span>
+            <span class="year">{{ page.nextMonth.year }}</span>
+          </h1>
+
+          <div class="mini-days-grid">
+            @for (day of page.nextMonth.days; track day) {
+              <div [ngStyle]="$index === 0 ? { 'grid-column-start': page.nextMonth.dayStartOffset } : {}">
+                {{ day }}
+              </div>
+            }
+          </div>
+        </div>
+      </header>
+
+      <div class="week-days">
+        <span> <!-- week number --> </span>
+        <span>Lunes</span>
+        <span>Martes</span>
+        <span>Miércoles</span>
+        <span>Jueves</span>
+        <span>Viernes</span>
+        <span>Sábado</span>
+        <span>Domingo</span>
+      </div>
+
+      <div class="main-days-grid">
+        @for (week of page.weeks; track week.weekNumberOfTheYear) {
+          <div class="week-number">{{ week.weekNumberOfTheYear }}</div>
+
+          @for (day of week.days; track day) {
+            <div
+              [ngClass]="{
+                cell: true,
+                'cell--weekend': day.isWeekend,
+                'cell--other-month': day.isFromOtherMonth,
+                'cell--sunday': day.isSunday,
+                'cell--holiday': day.holidays?.length > 0,
+              }"
+            >
+              <div class="box-top">
+                <div class="column-left">
+                  <div class="day-number">{{ day.dayNumber }}</div>
+
+                  <div class="calendar-events">
+                    @for (calendarEvent of day.calendarEvents; track calendarEvent) {
+                      <div class="calendar-event">{{ calendarEvent.emoji }}</div>
+                    }
+                  </div>
+                </div>
+
+                <div class="holiday-events">
+                  @for (holiday of day.holidays; track holiday) {
+                    <div class="holiday-name">{{ holiday.name }}</div>
+                  }
+                </div>
+              </div>
+
+              <div class="personal-events">
+                @for (personalEvent of day.personalEvents; track personalEvent) {
+                  <div class="personal-event">
+                    <span class="emoji">{{ personalEvent.emoji }}</span>
+                    <span>{{ personalEvent.name }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </section>
+  }
+</div>
+
+<aside class="panel no-printable">
+  <label class="select-year-control">
+    <div>Selecciona el año</div>
+    <select class="year-select" [formControl]="selectYearControl">
+      @for (year of availableYears; track year) {
+        <option [value]="year">{{ year }}</option>
+      }
+    </select>
+  </label>
+
+  <jei-collapsible [isOpen]="true" class="collapsible">
+    <div jeiCollapsibleToggleAction (click)="holidayListIsExpanded = !holidayListIsExpanded" class="list-name">
+      <svg appChevronSvg [color]="'#3a3a3a'" [ngClass]="{ opened: holidayListIsExpanded }"></svg>
+      <div>DÍAS FESTIVOS</div>
+    </div>
+
+    <div jeiCollapsibleContent>
+      <button class="add-event-button" (click)="addNewHoliday()">Añadir festivo</button>
+      @if (holidayEvents.length > 0) {
+        <ul class="events-list">
+          @for (item of holidayEvents; track item) {
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="saveHolidayDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="saveHolidayMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
+              <input type="text" placeholder="Introduce el día festivo" [value]="item.name" class="name holiday" (input)="saveHolidayName($event.target.value, item)" />
+              <svg appPlusSvg [color]="'#d2322d'" (click)="removeHoliday(item)"></svg>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
+
+  <jei-collapsible [isOpen]="true" class="collapsible">
+    <div jeiCollapsibleToggleAction (click)="personalListIsExpanded = !personalListIsExpanded" class="list-name">
+      <svg appChevronSvg [ngClass]="{ opened: personalListIsExpanded }"></svg>
+      <div>EVENTOS PERSONALES</div>
+    </div>
+
+    <div jeiCollapsibleContent>
+      <button class="add-event-button" (click)="addNewPersonalEvent()">Añadir evento</button>
+      @if (personalEvents.length > 0) {
+        <ul class="events-list">
+          @for (item of personalEvents; track item) {
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="savePersonalEventDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="savePersonalEventMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
+              <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="savePersonalEventEmoji($event.target.value, item)" />
+              <input type="text" placeholder="Introduce el evento" [value]="item.name" class="name personal" (input)="savePersonalEventName($event.target.value, item)" />
+              <svg appPlusSvg [color]="'#d2322d'" (click)="removePersonalEvent(item)"></svg>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
+
+  <jei-collapsible [isOpen]="true" class="collapsible">
+    <div jeiCollapsibleToggleAction (click)="calendarListIsExpanded = !calendarListIsExpanded" class="list-name">
+      <svg appChevronSvg [ngClass]="{ opened: calendarListIsExpanded }"></svg>
+      <div>EVENTOS DE CALENDARIO</div>
+    </div>
+
+    <div jeiCollapsibleContent>
+      <button class="add-event-button" (click)="addNewCalendarEvent()">Añadir evento</button>
+      @if (calendarEvents.length > 0) {
+        <ul class="events-list">
+          @for (item of calendarEvents; track item) {
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
+              <span class="date jei-no-break">
+                <select class="select-day" [value]="item.day" (change)="saveCalendarEventDay($any($event.target).value, item)">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+                <select class="select-month" [value]="item.month" (change)="saveCalendarEventMonth($any($event.target).value, item)">
+                  <option value="0">ene</option>
+                  <option value="1">feb</option>
+                  <option value="2">mar</option>
+                  <option value="3">abr</option>
+                  <option value="4">may</option>
+                  <option value="5">jun</option>
+                  <option value="6">jul</option>
+                  <option value="7">ago</option>
+                  <option value="8">sep</option>
+                  <option value="9">oct</option>
+                  <option value="10">nov</option>
+                  <option value="11">dic</option>
+                </select>
+              </span>
+              <input type="text" placeholder="😀" [value]="item.emoji" class="emoji" (input)="saveCalendarEventEmoji($event.target.value, item)" />
+              <div class="name"><!-- mock element to take space --></div>
+              <svg appPlusSvg [color]="'#d2322d'" (click)="removeCalendarEvent(item)"></svg>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="no-elements-message">Todavia no hay elementos</div>
+      }
+    </div>
+  </jei-collapsible>
+</aside>
