@@ -83,7 +83,10 @@
 
               <div class="personal-events">
                 @for (personalEvent of day.personalEvents; track $index) {
-                  <div class="personal-event">{{ personalEvent.emoji }} {{ personalEvent.name }}</div>
+                  <div class="personal-event">
+                    <span class="emoji">{{ personalEvent.emoji }}</span>
+                    <span>{{ personalEvent.name }}</span>
+                  </div>
                 }
               </div>
             </div>
