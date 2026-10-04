@@ -20,6 +20,33 @@
   }
 }
 
+.mini-calendar {
+  position: sticky;
+  top: 8mm;
+  width: 100px;
+  max-height: calc(100vh - 8mm - 8mm);
+  margin-top: 8mm;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .mini-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    flex-grow: 1;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+}
+
 .calendar {
   width: 210mm;
 }

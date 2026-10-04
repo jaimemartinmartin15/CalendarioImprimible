@@ -1,3 +1,12 @@
+<div class="mini-calendar">
+  @for (page of calendar; track page) {
+    <div class="mini-page month-and-year" (click)="scrollToMonth(page.month)">
+      <div class="month">{{ page.monthName }}</div>
+      <div class="year">{{ page.year }}</div>
+    </div>
+  }
+</div>
+
 <div class="calendar">
   @for (page of calendar; track page.monthName) {
     <section [id]="'page-' + page.month" class="page">
