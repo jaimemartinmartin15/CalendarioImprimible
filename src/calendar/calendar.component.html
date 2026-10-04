@@ -1,6 +1,6 @@
 <div class="calendar">
   @for (page of calendar; track page.monthName) {
-    <section class="page">
+    <section [id]="'page-' + page.month" class="page">
       <header class="header">
         <div class="mini-month">
           <h1 class="month-and-year mini">
@@ -118,7 +118,7 @@
       @if (holidayEvents.length > 0) {
         <ul class="events-list">
           @for (item of holidayEvents; track item) {
-            <li class="event-list-item">
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="saveHolidayDay($any($event.target).value, item)">
                   <option value="1">1</option>
@@ -190,7 +190,7 @@
       @if (personalEvents.length > 0) {
         <ul class="events-list">
           @for (item of personalEvents; track item) {
-            <li class="event-list-item">
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="savePersonalEventDay($any($event.target).value, item)">
                   <option value="1">1</option>
@@ -263,7 +263,7 @@
       @if (calendarEvents.length > 0) {
         <ul class="events-list">
           @for (item of calendarEvents; track item) {
-            <li class="event-list-item">
+            <li class="event-list-item" (click)="scrollToMonth(item.month)">
               <span class="date jei-no-break">
                 <select class="select-day" [value]="item.day" (change)="saveCalendarEventDay($any($event.target).value, item)">
                   <option value="1">1</option>

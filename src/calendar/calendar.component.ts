@@ -149,31 +149,45 @@ export class CalendarComponent implements OnInit {
     return weeks;
   }
 
+  public scrollToMonth(month: number) {
+    document.getElementById("page-" + month)?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  private updateView() {
+    this.selectYearControl.setValue(this.selectYearControl.value);
+  }
+
   //#region holidays
   public addNewHoliday(): void {
     this.holidayEvents.unshift({ month: 0, day: 1, name: "" });
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+    this.updateView();
   }
 
   public saveHolidayDay(newValue: number, item: HolidayEvent): void {
     item.day = +newValue;
     this.holidayEvents = this.holidayEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+    this.updateView();
   }
+
   public saveHolidayMonth(newValue: number, item: HolidayEvent): void {
     item.month = +newValue;
     this.holidayEvents = this.holidayEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+    this.updateView();
   }
 
   public saveHolidayName(newValue: string, item: HolidayEvent): void {
     item.name = newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+    this.updateView();
   }
 
   public removeHoliday(item: HolidayEvent): void {
     this.holidayEvents.splice(this.holidayEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.HOLIDAY_EVENTS, JSON.stringify(this.holidayEvents));
+    this.updateView();
   }
   //#endregion
 
@@ -181,32 +195,38 @@ export class CalendarComponent implements OnInit {
   public addNewPersonalEvent(): void {
     this.personalEvents.unshift({ month: 0, day: 1, emoji: "", name: "" });
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
 
   public savePersonalEventDay(newValue: number, item: PersonalEvent): void {
     item.day = +newValue;
     this.personalEvents = this.personalEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
   public savePersonalEventMonth(newValue: number, item: PersonalEvent): void {
     item.month = +newValue;
     this.personalEvents = this.personalEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
 
   public savePersonalEventEmoji(newValue: string, item: PersonalEvent): void {
     item.emoji = newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
 
   public savePersonalEventName(newValue: string, item: PersonalEvent): void {
     item.name = newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
 
   public removePersonalEvent(item: PersonalEvent): void {
     this.personalEvents.splice(this.personalEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.PERSONAL_EVENTS, JSON.stringify(this.personalEvents));
+    this.updateView();
   }
   //#endregion
 
@@ -214,27 +234,32 @@ export class CalendarComponent implements OnInit {
   public addNewCalendarEvent(): void {
     this.calendarEvents.unshift({ month: 0, day: 1, emoji: "" });
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+    this.updateView();
   }
 
   public saveCalendarEventDay(newValue: number, item: CalendarEvent): void {
     item.day = +newValue;
     this.calendarEvents = this.calendarEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+    this.updateView();
   }
   public saveCalendarEventMonth(newValue: number, item: CalendarEvent): void {
     item.month = +newValue;
     this.calendarEvents = this.calendarEvents.sort(dateSorter);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+    this.updateView();
   }
 
   public saveCalendarEventEmoji(newValue: string, item: CalendarEvent): void {
     item.emoji = newValue;
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+    this.updateView();
   }
 
   public removeCalendarEvent(item: CalendarEvent): void {
     this.calendarEvents.splice(this.calendarEvents.indexOf(item), 1);
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(this.calendarEvents));
+    this.updateView();
   }
   //#endregion
 }
